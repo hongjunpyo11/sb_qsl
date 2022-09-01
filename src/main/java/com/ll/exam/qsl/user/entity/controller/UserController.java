@@ -1,4 +1,4 @@
-package com.ll.exam.qsl.user.controller;
+package com.ll.exam.qsl.user.entity.controller;
 
 import com.ll.exam.qsl.user.entity.SiteUser;
 import com.ll.exam.qsl.user.repository.UserRepository;
