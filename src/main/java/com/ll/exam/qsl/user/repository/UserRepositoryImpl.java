@@ -122,15 +122,17 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public List<String> getKeywordContentsByFollowingsOf(SiteUser user) {
-        QSiteUser siteUser2 = new QSiteUser("siteUser2");
+        QSiteUser siteUser2 = new QSiteUser("SU2");
 
-        return jpaQueryFactory
-                .select(interestKeyword.content)
-                .distinct()
-                .from(interestKeyword)
-                .innerJoin(interestKeyword.user, siteUser) // site_user
+        List<Long> ids = jpaQueryFactory.select(siteUser.id)
+                .from(siteUser)
                 .innerJoin(siteUser.followers, siteUser2)
                 .where(siteUser2.id.eq(user.getId()))
+                .fetch();
+
+        return jpaQueryFactory.select(interestKeyword.content).distinct()
+                .from(interestKeyword)
+                .where(interestKeyword.user.id.in(ids))
                 .fetch();
     }
 }
